@@ -115,7 +115,7 @@ export const JsonValidator: React.FC = () => {
           <button
             type="button"
             id="validate-json-btn"
-            onClick={handleValidate}
+            onClick={() => handleValidate()}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 active:scale-95 transition-all cursor-pointer"
           >
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />

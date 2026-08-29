@@ -2,6 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { Copy, Trash2, Check, Clock, BookOpen, Mic, FileText, BarChart2 } from 'lucide-react';
 import { copyToClipboard } from '../../utils/file';
 
+interface KeywordStat {
+  word: string;
+  count: number;
+  percent: string;
+}
+
 export const WordCounter: React.FC = () => {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
@@ -19,11 +25,11 @@ export const WordCounter: React.FC = () => {
         paragraphs: 0,
         readingTime: '0 min',
         speakingTime: '0 min',
-        topKeywords: [],
+        topKeywords: [] as KeywordStat[],
       };
     }
 
-    const wordsArray = trimmed.match(/\b[\w'-]+\b/g) || [];
+    const wordsArray: string[] = trimmed.match(/\b[\w'-]+\b/g) || [];
     const words = wordsArray.length;
     const chars = text.length;
     const charsNoSpaces = text.replace(/\s/g, '').length;

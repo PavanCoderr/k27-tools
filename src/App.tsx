@@ -92,24 +92,24 @@ export default function App() {
       if (tool) {
         updateSEO(tool);
       }
-      } else if (cleanPath.startsWith('/category/')) {
+    } else if (cleanPath.startsWith('/category/')) {
       const catId = cleanPath.replace('/category/', '') as ToolCategory;
       const cat = CATEGORIES.find((c) => c.id === catId);
       if (cat) {
-          updatePageSeo({
-            title: `${cat.name} Online Tools - Free & Client-Side | K27 Tools`,
-            canonicalPath: `/category/${cat.id}`,
-            description: cat.description,
-          });
+        updatePageSeo({
+          title: `${cat.name} Online Tools - Free & Client-Side | K27 Tools`,
+          canonicalPath: `/category/${cat.id}`,
+          description: cat.description,
+        });
       }
     } else if (cleanPath === '/privacy') {
-        updatePageSeo({ title: 'Privacy Policy - 100% Client-Side Processing | K27 Tools', canonicalPath: '/privacy' });
+      updatePageSeo({ title: 'Privacy Policy - 100% Client-Side Processing | K27 Tools', canonicalPath: '/privacy' });
     } else if (cleanPath === '/terms') {
-        updatePageSeo({ title: 'Terms of Service | K27 Tools', canonicalPath: '/terms' });
+      updatePageSeo({ title: 'Terms of Service | K27 Tools', canonicalPath: '/terms' });
     } else if (cleanPath === '/about') {
-        updatePageSeo({ title: 'About Us - Fast, Private Free Utilities | K27 Tools', canonicalPath: '/about' });
+      updatePageSeo({ title: 'About Us - Fast, Private Free Utilities | K27 Tools', canonicalPath: '/about' });
     } else if (cleanPath === '/contact') {
-        updatePageSeo({ title: 'Contact Us & Request Tools | K27 Tools', canonicalPath: '/contact' });
+      updatePageSeo({ title: 'Contact Us & Request Tools | K27 Tools', canonicalPath: '/contact' });
     } else {
       updatePageSeo({
         title: 'Page Not Found | K27 Tools',
