@@ -75,9 +75,9 @@ export const AdSlot: React.FC<AdSlotProps> = ({ placement, className = '' }) => 
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Ads disabled → show placeholder
+  // Keep disabled ad placements out of the public UI until a network is configured.
   if (!AD_CONFIG.enabled) {
-    return <AdPlaceholder position={placement} className={className} />;
+    return null;
   }
 
   // Ads enabled → render real ad container (lazy)
