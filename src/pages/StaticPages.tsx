@@ -29,7 +29,7 @@ export const PrivacyPolicyPage: React.FC<StaticPageProps> = ({ onNavigate }) => 
           <span>Zero Server Uploads</span>
         </div>
         <h1 className="text-3xl font-black text-stone-900 tracking-tight">Privacy Policy</h1>
-        <p className="text-xs text-stone-500">Last updated: August 2026</p>
+        <p className="text-xs text-stone-500">Last updated: August 29, 2026</p>
       </div>
 
       <div className="prose prose-stone text-xs text-stone-600 space-y-4 leading-relaxed">
@@ -46,13 +46,33 @@ export const PrivacyPolicyPage: React.FC<StaticPageProps> = ({ onNavigate }) => 
           <strong> We never transmit, store, or log your file contents, text, or tokens to any external server.</strong>
         </p>
 
-        <h2 className="text-base font-bold text-stone-900">3. Cookies and Analytics</h2>
+        <h2 className="text-base font-bold text-stone-900">3. Cookies, Advertising, and Analytics</h2>
         <p>
-          We do not use invasive tracking cookies. We may use privacy-preserving analytics and ethical advertising partners
-          (such as Google AdSense) to keep this service 100% free. These third-party vendors may use cookies to serve ads based on prior visits.
+          K27 Tools does not currently enable advertising or analytics. If these services are enabled in the future,
+          Google and other approved partners may use cookies, web beacons, IP addresses, and similar identifiers to measure
+          traffic and serve ads, including personalized ads where legally permitted. We will update this policy and provide
+          any required consent controls before enabling those services.
         </p>
 
-        <h2 className="text-base font-bold text-stone-900">4. Contact Information</h2>
+        <p>
+          For information about how Google uses data when you use sites that use its services, see{' '}
+          <a
+            href="https://policies.google.com/technologies/partner-sites"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-stone-900 font-semibold underline"
+          >
+            How Google uses data when you use our partners' sites or apps
+          </a>.
+        </p>
+
+        <h2 className="text-base font-bold text-stone-900">4. External Services</h2>
+        <p>
+          The site currently loads fonts from Google Fonts. Your browser may contact Google to retrieve those font files.
+          Tool inputs and uploaded files are not sent to Google Fonts or any K27 Tools server.
+        </p>
+
+        <h2 className="text-base font-bold text-stone-900">5. Contact Information</h2>
         <p>
           For any privacy inquiries or technical questions regarding client-side processing, contact us at{' '}
           <a href={`mailto:${SITE_CONFIG.contactEmail}`} className="text-stone-900 font-semibold underline">
