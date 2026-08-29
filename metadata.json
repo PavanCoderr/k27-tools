@@ -1,0 +1,6 @@
+{
+  "name": "K27 Tools",
+  "description": "Fast, simple, and privacy-friendly free online developer, image, text, JSON, PDF, and QR utility tools running 100% locally in your browser.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

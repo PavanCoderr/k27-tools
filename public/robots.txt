@@ -1,0 +1,11 @@
+# K27 Tools - Free Online Utilities
+# All tools run 100% client-side in your browser
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://k27tools.dpdns.org/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1

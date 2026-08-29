@@ -1,0 +1,232 @@
+================================================================================
+              K27 TOOLS — ADS / MONETIZATION PREPARATION REPORT
+                         Generated: August 26, 2026
+================================================================================
+
+================================================================================
+AD SYSTEM
+================================================================================
+Provider:       none (ready for adsense | adsterra)
+Default state:  DISABLED (ads.enabled = false)
+Architecture:   Centralized config → single AdSlot component → lazy-loaded
+
+Ad components created:
+  1. src/config/ads.ts              — Centralized ad configuration
+  2. src/components/ads/AdSlot.tsx  — Main responsive ad-slot component
+  3. src/components/ads/AdPlaceholder.tsx — Subtle "ADVERTISEMENT" placeholder
+  4. src/components/ads/index.ts    — Barrel export
+  5. src/components/AdSlot.tsx      — Compatibility wrapper (preserves old imports)
+  6. src/vite-env.d.ts              — Vite env type declarations
+
+================================================================================
+AD LOCATIONS
+================================================================================
+
+Tool Pages (via ToolLayout):
+  Position    Placement       Location
+  ─────────   ───────────     ──────────────────────────────────────
+  Top         toolTop         Below heading, above tool interactive area
+  Middle      toolMiddle      Between tool and SEO content sections
+  Bottom      toolBottom      After SEO content, before related tools
+
+Homepage (via HomePage):
+  Position    Placement       Location
+  ─────────   ───────────     ──────────────────────────────────────
+  Top         homeTop         Below hero search bar, above popular tools
+  Middle      homeMiddle      Between popular tools and all-tools grid
+  Bottom      homeBottom      After value propositions, before footer
+
+Category Pages (via CategoryPage):
+  Position    Placement       Location
+  ─────────   ───────────     ──────────────────────────────────────
+  Top         categoryTop     Below category header, above tool grid
+  Bottom      categoryBottom  After tool grid, before footer
+
+Total ad slots: 8 (3 tool + 3 home + 2 category)
+
+Mobile:
+  Responsive container using matchMedia breakpoint (640px)
+  Desktop sizes: 728x90 / 300x250 / 336x280
+  Mobile sizes:  320x100 / 320x50 / 300x250
+  Lazy-loaded via IntersectionObserver (200px root margin)
+
+================================================================================
+SECURITY
+================================================================================
+Secrets:              NONE — no API keys, no hardcoded credentials
+Third-party scripts:  ZERO when ads.enabled = false
+AdSense publisher ID: Reads from VITE_ADSENSE_PUBLISHER_ID env var (unset)
+Adsterra zone ID:     Reads from VITE_ADSTERRA_ZONE_ID env var (unset)
+
+Verified: grep of dist/assets/*.js shows ZERO ad-network strings:
+  ✓ No "adsbygoogle"
+  ✓ No "adsterra"
+  ✓ No "pagead2"
+  ✓ No "googlesyndication"
+  ✓ No "ca-pub-"
+
+================================================================================
+PERFORMANCE
+================================================================================
+Impact:               ZERO when ads disabled
+Bundle size:          No increase (tree-shaken out)
+Network requests:     None (no ad scripts loaded)
+Lazy loading:         IntersectionObserver starts loading 200px before visible
+Layout shift:         Prevented via min-height containers
+
+================================================================================
+BUILD
+================================================================================
+Status:               PASS
+TypeScript:           Zero errors
+Production build:     vite build succeeds
+Output:               dist/ (1.1MB total)
+Warnings:             vendor-pdf chunk >500KB (expected — pdf-lib + jszip)
+
+================================================================================
+FUNCTIONAL TEST
+================================================================================
+Status:               PASS
+Verified:
+  ✓ TypeScript compiles with zero errors
+  ✓ Production build succeeds
+  ✓ AdPlaceholder renders when ads disabled
+  ✓ No ad-network code in production bundle
+  ✓ All 21 tools unaffected by ad system
+  ✓ No layout-breaking behavior
+  ✓ No accidental click areas
+  ✓ No deceptive buttons or fake CTAs
+  ✓ Placeholder uses dashed border + "ADVERTISEMENT" text only
+  ✓ Each placement can be individually toggled via config
+
+================================================================================
+FILES CREATED/MODIFIED
+================================================================================
+
+NEW FILES:
+  src/config/ads.ts                    — Centralized ad configuration
+  src/components/ads/AdSlot.tsx        — Main ad-slot component
+  src/components/ads/AdPlaceholder.tsx — Placeholder component
+  src/components/ads/index.ts          — Barrel export
+  src/vite-env.d.ts                    — Vite env type declarations
+
+MODIFIED FILES:
+  src/components/AdSlot.tsx            — Now delegates to ads/AdSlot
+  src/components/ToolLayout.tsx        — Updated import + placement props
+  src/pages/HomePage.tsx               — Updated import + placement props
+  src/pages/CategoryPage.tsx           — Updated import + placement props
+  .env.example                         — Added ad env vars
+
+================================================================================
+HOW TO ACTIVATE GOOGLE ADSENSE
+================================================================================
+
+Step 1: Get your AdSense account approved
+  - Apply at https://www.google.com/adsense/
+  - Wait for approval (may take days/weeks)
+
+Step 2: Get your publisher ID
+  - Format: ca-pub-XXXXXXXXXXXXXXXX
+  - Found in AdSense dashboard → Account → Account information
+
+Step 3: Set environment variable
+  For Cloudflare Pages:
+    Dashboard → Workers & Pages → your project → Settings → Environment variables
+    Add: VITE_ADSENSE_PUBLISHER_ID = ca-pub-XXXXXXXXXXXXXXXX
+
+Step 4: Enable ads in config
+  Edit src/config/ads.ts:
+    enabled: true,
+    provider: 'adsense',
+
+Step 5: Deploy
+  git push → Cloudflare Pages auto-deploys
+
+Step 6: Create ads.txt
+  After AdSense approval, AdSense will tell you what to put in ads.txt.
+  Create public/ads.txt with the exact entries Google provides.
+
+================================================================================
+HOW TO ACTIVATE ADSTERRA
+================================================================================
+
+Step 1: Create Adsterra account
+  - Sign up at https://www.adsterra.com/
+
+Step 2: Create a placement
+  - Choose ad format (Social Bar, Display Banner, etc.)
+  - Get your zone/placement ID
+
+Step 3: Set environment variable
+  For Cloudflare Pages:
+    Dashboard → Workers & Pages → your project → Settings → Environment variables
+    Add: VITE_ADSTERRA_ZONE_ID = your-zone-id
+
+Step 4: Enable ads in config
+  Edit src/config/ads.ts:
+    enabled: true,
+    provider: 'adsterra',
+
+Step 5: Deploy
+  git push → Cloudflare Pages auto-deploys
+
+================================================================================
+ARCHITECTURE SUMMARY
+================================================================================
+
+  src/config/ads.ts              ← Single source of truth
+        ↓
+  src/components/ads/AdSlot.tsx  ← Reads config, renders correct provider
+        ↓
+  ┌─────────────────────────────────────┐
+  │  AD_CONFIG.enabled === false?       │
+  │  YES → AdPlaceholder (subtle text)  │
+  │  NO  → AdNetworkContainer           │
+  │        ├→ AdsenseContainer          │
+  │        └→ AdsterraContainer         │
+  └─────────────────────────────────────┘
+
+  ToolLayout.tsx  → <AdSlot placement="toolTop" />
+  HomePage.tsx    → <AdSlot placement="homeTop" />
+  CategoryPage.tsx → <AdSlot placement="categoryTop" />
+
+  OLD import (still works):
+    import { AdSlot } from '../components/AdSlot';
+  NEW import (preferred):
+    import { AdSlot } from '../components/ads/AdSlot';
+
+================================================================================
+CONSENT / PRIVACY NOTES
+================================================================================
+
+Google AdSense:
+  - Requires consent mechanism for EU/EEA/UK visitors (GDPR)
+  - Requires CCPA compliance for California visitors
+  - Recommend: Add a consent banner before enabling AdSense
+  - Google provides a built-in consent mode for this
+
+Adsterra:
+  - Also requires consent for GDPR regions
+  - Less strict than AdSense for initial setup
+
+Recommendation:
+  Do NOT enable ads until you have a cookie consent mechanism in place.
+  The architecture is ready — just add a ConsentBanner component when needed.
+
+================================================================================
+NEXT STEPS (WHEN READY)
+================================================================================
+
+1. Choose ad provider (AdSense recommended for quality)
+2. Get account approved
+3. Set VITE_ADSENSE_PUBLISHER_ID in Cloudflare Pages env vars
+4. Change AD_CONFIG.enabled to true in src/config/ads.ts
+5. Change AD_CONFIG.provider to 'adsense'
+6. Add public/ads.txt with your publisher info
+7. Add cookie consent banner (for GDPR compliance)
+8. Deploy and verify
+9. Monitor ad performance in AdSense dashboard
+
+================================================================================
+                          END OF REPORT
+================================================================================
